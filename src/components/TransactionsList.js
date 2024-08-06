@@ -1,37 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Transaction from "./Transaction";
 
-function TransactionsList({
-  transactions,
-  setTransactions,
-  search,
-  setSearch,
-}) {
-  useEffect(() => {
-    fetch("http://localhost:8001/transactions")
-      .then((res) => res.json)
-      .then((data) => setTransactions);
-  }, [setTransactions]);
-
-  const filteredTransactions = transactions.filter((transaction) =>
-    transaction.description.toLowerCase().includes(search.toLowerCase())
-  );
-
-  const transactionlist = filteredTransactions.maps((transaction) => {
-    return (
-      <Transaction
-        transactions={transactions}
-        setTransactions={setTransactions}
-        key={transaction.id}
-        date={transaction.date}
-        description={transaction.description}
-        category={transaction.category}
-        amount={transaction.amount}
-        id={transaction.id}
-      />
-    );
-  });
-
+function TransactionsList({ list }) {
   return (
     <table className="ui celled striped padded table">
       <tbody>
@@ -49,7 +19,9 @@ function TransactionsList({
             <h3 className="ui center aligned header">Amount</h3>
           </th>
         </tr>
-        <Transaction />
+        {list.map((item) => (
+          <Transaction data={item} />
+        ))}
       </tbody>
     </table>
   );
